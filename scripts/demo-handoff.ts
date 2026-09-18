@@ -9,11 +9,15 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 async function main() {
-  console.log('=== STARTING MONASTERY STEWARDSHIP HAND-OFF DEMO ===\n');
+  const isLive = process.argv.includes('--live') || process.env.LIVE_HANDOFF === 'true';
+
+  console.log(`=== MONASTERY STEWARDSHIP HAND-OFF (${isLive ? 'LIVE PRODUCTION RUN' : 'DEMONSTRATION RUN'}) ===\n`);
 
   const config = getAppConfig();
   const identities = loadIdentities(config);
-  const beeClient = new SwarmBeeClient(config.BEE_API_URL, true); // Mock mode for deterministic CLI demo
+  
+  // Use live Bee node if --live or LIVE_HANDOFF=true is specified, otherwise fallback mock mode
+  const beeClient = new SwarmBeeClient(config.BEE_API_URL, !isLive);
 
   const registry = new GovernanceStewardRegistry(identities.stewardSigners);
   const governanceService = new GovernanceService(registry);
@@ -22,9 +26,13 @@ async function main() {
   const outgoingPublisher = identities.publisherSigner;
 
   // Incoming steward identity supplied externally as a parameter
-  const incomingStewardWallet = Wallet.createRandom();
+  const incomingStewardWallet = process.env.INCOMING_STEWARD_PRIVATE_KEY
+    ? new Wallet(process.env.INCOMING_STEWARD_PRIVATE_KEY)
+    : Wallet.createRandom();
+  
   const incomingPublisherAddress = incomingStewardWallet.address;
 
+  console.log(`Execution Mode:            ${isLive ? 'LIVE SWARM NODE' : 'SIMULATED DEMO'}`);
   console.log(`Outgoing Publisher Identity: ${outgoingPublisher.address}`);
   console.log(`Incoming Steward Identity:  ${incomingPublisherAddress}`);
   console.log(`Storage/Bursar Identity:    ${identities.storageSigner.address}`);
@@ -51,15 +59,28 @@ async function main() {
   console.log(`- Signatures Collected: ${evidence.signaturesCount} of 7`);
 
   // Format handoff record content for docs/handoff-record.md
-  const handoffMarkdown = `# Monastery Catalogue Stewardship Handoff Record
+  const handoffMarkdown = `# Manuscript Catalogue Stewardship Hand-off Record
 
-## Handoff Overview
+> [!IMPORTANT]
+> **RECORD STATUS: ${isLive ? 'LIVE PRODUCTION EXECUTION' : 'DEMONSTRATION / TEST RUN'}**
+> ${
+    isLive
+      ? 'This hand-off was executed live against the configured Swarm Bee node.'
+      : 'This hand-off record was generated during automated demonstration testing. To perform a live production hand-off against a running Swarm Bee node with real steward keys, see the instructions below.'
+  }
 
-- **Date of Hand-off**: ${evidence.date}
+---
+
+## 1. Hand-off Overview
+
+- **Execution Mode**: \`${isLive ? 'LIVE_SWARM_NETWORK' : 'DEMO_SIMULATION'}\`
+- **Date of Hand-off**: \`${evidence.date}\`
 - **Authority Transferred**: ${evidence.authorityTransferred}
 - **Governance Quorum Achieved**: ${evidence.signaturesCount} out of 7 Monastery Stewards
 
-## Identity Details
+---
+
+## 2. Identity Details
 
 ### Outgoing Signing Identity
 - **Role**: Former Manuscript Catalogue Publisher
@@ -75,7 +96,7 @@ async function main() {
 
 ---
 
-## Verifiable Cryptographic Evidence
+## 3. Verifiable Cryptographic Evidence
 
 - **Governance Proposal Hash**:
   \`${evidence.proposalHash}\`
@@ -88,16 +109,33 @@ ${evidence.signerAddresses.map((addr, idx) => `  ${idx + 1}. \`${addr}\``).join(
 
 ---
 
-## Reproducible Verification Steps
+## 4. Reproducible Verification & Live Execution
 
-To verify this handoff record independently using the repository tools:
+### How to Verify This Record
+
+To verify this hand-off record cryptographically using repository tools:
 
 \`\`\`bash
 npm run verify:handoff
 \`\`\`
 
-> [!NOTE]
-> This handoff record was generated under the authority of the Seven Monastery Governance Council. No private keys or secret credentials exist in this document.
+### How to Perform a Live Production Hand-off
+
+To execute a live hand-off against a real Swarm Bee node using environment variables:
+
+1. Configure your \`.env\` file with real Bee node credentials and steward private keys:
+   \`\`\`ini
+   BEE_API_URL=http://your-bee-node:1633
+   BEE_POSTAGE_BATCH_ID=<your-funded-batch-id>
+   INCOMING_STEWARD_PRIVATE_KEY=<incoming-steward-private-key>
+   \`\`\`
+
+2. Run the live hand-off command:
+   \`\`\`bash
+   npm run perform:handoff
+   \`\`\`
+
+3. The script will write the live Swarm feed references, proposal hashes, and signatures directly to this document.
 `;
 
   const docsDir = path.join(process.cwd(), 'docs');
@@ -107,10 +145,10 @@ npm run verify:handoff
 
   const recordPath = path.join(docsDir, 'handoff-record.md');
   fs.writeFileSync(recordPath, handoffMarkdown);
-  console.log(`\nUpdated tracked handoff record at: ${recordPath}`);
+  console.log(`\nUpdated hand-off record at: ${recordPath}`);
 }
 
 main().catch((err) => {
-  console.error('Hand-off demo failed:', err);
+  console.error('Hand-off execution failed:', err);
   process.exit(1);
 });

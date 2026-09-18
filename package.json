@@ -10,6 +10,7 @@
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
     "demo:handoff": "tsx scripts/demo-handoff.ts",
+    "perform:handoff": "tsx scripts/demo-handoff.ts --live",
     "verify:handoff": "tsx scripts/verify-handoff.ts",
     "top-up-batch": "tsx scripts/top-up-batch.ts"
   },

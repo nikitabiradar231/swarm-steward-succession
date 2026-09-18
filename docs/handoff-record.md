@@ -1,12 +1,21 @@
-# Monastery Catalogue Stewardship Handoff Record
+# Manuscript Catalogue Stewardship Hand-off Record
 
-## Handoff Overview
+> [!IMPORTANT]
+> **RECORD STATUS: DEMONSTRATION / TEST RUN**
+> This hand-off record was generated during automated demonstration testing. To perform a live production hand-off against a running Swarm Bee node with real steward keys, see the instructions below.
 
-- **Date of Hand-off**: 2026-09-18T19:29:08.875Z
+---
+
+## 1. Hand-off Overview
+
+- **Execution Mode**: `DEMO_SIMULATION`
+- **Date of Hand-off**: `2026-09-18T19:42:35.011Z`
 - **Authority Transferred**: Manuscript Catalogue Publishing Authority for the Seven Monastery Federation
 - **Governance Quorum Achieved**: 4 out of 7 Monastery Stewards
 
-## Identity Details
+---
+
+## 2. Identity Details
 
 ### Outgoing Signing Identity
 - **Role**: Former Manuscript Catalogue Publisher
@@ -14,7 +23,7 @@
 
 ### Incoming Signing Identity
 - **Role**: Incoming Manuscript Catalogue Steward / Publisher
-- **Public Address**: `0x2fd07b3c7e42c310bb527d3324424601d2f62cd5`
+- **Public Address**: `0xdfc23e98e4aa09c49ba18f6f8efc8a5fc95c2a85`
 
 ### Storage Custodian Identity
 - **Role**: Storage / Postage Batch Bursar
@@ -22,13 +31,13 @@
 
 ---
 
-## Verifiable Cryptographic Evidence
+## 3. Verifiable Cryptographic Evidence
 
 - **Governance Proposal Hash**:
-  `0xddaff5dd35d43e3aab0a5b14d629f7693b0b27f3be950eb8533929f837f5157b`
+  `0x5a635dbaa89599b683e77e5be006386aefe9504853d9708dc6adfd046b36e7cd`
 
 - **Swarm Governance Feed Index / Reference**:
-  `4570856d28e75033153b074cdc6efeeeea8d92601d47da759bbd0be573f268f9`
+  `eeb5e345d1d13675fbc8610efc8d815942fd3856205743e24716a3d4b18789a8`
 
 - **Participating Steward Signers**:
   1. `0x5cbdd86a2fa8dc4bddd8a8f69dba48572eec07fb`
@@ -38,13 +47,30 @@
 
 ---
 
-## Reproducible Verification Steps
+## 4. Reproducible Verification & Live Execution
 
-To verify this handoff record independently using the repository tools:
+### How to Verify This Record
+
+To verify this hand-off record cryptographically using repository tools:
 
 ```bash
 npm run verify:handoff
 ```
 
-> [!NOTE]
-> This handoff record was generated under the authority of the Seven Monastery Governance Council. No private keys or secret credentials exist in this document.
+### How to Perform a Live Production Hand-off
+
+To execute a live hand-off against a real Swarm Bee node using environment variables:
+
+1. Configure your `.env` file with real Bee node credentials and steward private keys:
+   ```ini
+   BEE_API_URL=http://your-bee-node:1633
+   BEE_POSTAGE_BATCH_ID=<your-funded-batch-id>
+   INCOMING_STEWARD_PRIVATE_KEY=<incoming-steward-private-key>
+   ```
+
+2. Run the live hand-off command:
+   ```bash
+   npm run perform:handoff
+   ```
+
+3. The script will write the live Swarm feed references, proposal hashes, and signatures directly to this document.
