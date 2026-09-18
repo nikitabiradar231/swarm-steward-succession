@@ -48,6 +48,10 @@ The architecture enforces strict separation between three distinct operational i
 | **Publishing Identity** | `PUBLISHER_SIGNER_PRIVATE_KEY` | Signs and uploads catalogue updates (folio descriptions, condition status, photography flags). | **Cannot** unilaterally transfer publishing authority or alter governance pointer. |
 | **Governance Authority** | `GOVERNANCE_STEWARD_1_KEY` .. `7_KEY` | Represents the 7 monastery libraries. Authorizes publisher rotation via **4-of-7 multi-signature quorum**. | Maintains the stable reader pointer. |
 
+> [!IMPORTANT]
+> **Shared Bee Node Storage Custody Limitation:**  
+> When the seven institutions share a single local or remote Bee node instance, storage custody for postage batches is concentrated in that node's storage identity (`STORAGE_SIGNER`). However, publishing authority (`PUBLISHER_SIGNER`) and governance authority (`GOVERNANCE_STEWARDS`) remain completely decoupled and operate independently off-node. Even if the shared node host is compromised, it cannot forge catalogue entries or redirect the 4-of-7 governance reader pointer.
+
 ---
 
 ## 🎯 Stable Reader Resolution
@@ -85,8 +89,8 @@ Swarm requires continuous storage funding via **Postage Batches** (Stamps). Unfu
 
 ```bash
 # Clone and install dependencies
-git clone https://github.com/monastery-catalogue/succession.git
-cd succession
+git clone https://github.com/nikitabiradar231/swarm-steward-succession.git
+cd swarm-steward-succession
 npm install
 ```
 
@@ -168,13 +172,14 @@ npm run top-up-batch
 
 ## 📜 Human Governance & Legal Artifacts
 
-- [`docs/stewardship-agreement.md`](file:///c:/Users/nikita/OneDrive/Desktop/D3/docs/stewardship-agreement.md): Human-readable stewardship agreement for monastery committees detailing roles, triggers, and 4-of-7 governance rules.
+- [`docs/stewardship-agreement.md`](file:///c:/Users/nikita/OneDrive/Desktop/D3/docs/stewardship-agreement.md): Human-readable stewardship agreement for monastery committees detailing roles, triggers, shared custody limitations, and 4-of-7 governance rules.
 - [`docs/handoff-record.md`](file:///c:/Users/nikita/OneDrive/Desktop/D3/docs/handoff-record.md): Tracked artifact recording completed stewardship succession with verifiable cryptographic evidence.
 
 ---
 
-## 🛡️ Security Considerations
+## 🛡️ Security & Confidentiality Policy
 
 1. **Zero Hardcoded Credentials**: All keys and connection parameters are loaded from environment variables (`.env`).
 2. **Identity Separation Safeguards**: The system enforces runtime assertions ensuring `STORAGE_SIGNER` address $\neq$ `PUBLISHER_SIGNER` address.
 3. **No Unilateral Control**: The publisher key alone cannot alter the governance pointer without securing signatures from at least 4 out of 7 governance stewards.
+4. **Git Protection**: `.gitignore` excludes `.env`, credential files, build outputs, and temporary files. Private keys are never committed.

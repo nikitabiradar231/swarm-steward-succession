@@ -48,7 +48,20 @@ To prevent single points of failure and eliminate unauthorized tampering, author
 
 ---
 
-## 4. Triggering Conditions for Succession
+## 4. Shared Bee Node Storage Custody Limitation
+
+> [!IMPORTANT]
+> **Operational Realities of Shared Infrastructure:**
+> When the federation utilizes a single shared Bee node for hosting, the node's local wallet concentrates storage postage batch custody within that node's storage identity (`STORAGE_SIGNER`). 
+> 
+> To mitigate centralized control risks:
+> - **Publishing Authority (`PUBLISHER_SIGNER`)** remains strictly separate from the node's storage wallet key.
+> - **Governance Authority (`GOVERNANCE_STEWARDS`)** is maintained off-node using 7 distinct steward private keys.
+> - Even if a shared Bee node host is compromised, the node host **cannot** forge catalogue signatures or alter the 4-of-7 governance reader pointer.
+
+---
+
+## 5. Triggering Conditions for Succession
 
 Succession and transfer of primary stewardship shall occur under any of the following explicit conditions:
 
@@ -59,14 +72,14 @@ Succession and transfer of primary stewardship shall occur under any of the foll
 
 ---
 
-## 5. Seven-Steward Governance & Quorum Rules
+## 6. Seven-Steward Governance & Quorum Rules
 
 - **Quorum Requirement**: Any modification to the stable reader pointer or authorization of an incoming steward requires the concurrence of at least **four out of seven (4-of-7)** monastery steward signatures (a 57% majority).
 - **Impossibility of Unilateral Alteration**: The current Active Publisher holds only one vote on the Governance Council. The publisher **cannot** unilaterally alter the governance pointer without securing at least three additional steward signatures.
 
 ---
 
-## 6. Succession Procedure & Receiving Authority
+## 7. Succession Procedure & Receiving Authority
 
 1. **Initiation**: Any steward delegate may initiate a succession request upon occurrence of a triggering condition.
 2. **Verification & Signature Collection**: The incoming steward's cryptographic public identity is submitted to the Governance Council. At least four (4) steward delegates review the proposal and attach their digital signatures to the rotation payload.
@@ -75,22 +88,30 @@ Succession and transfer of primary stewardship shall occur under any of the foll
 
 ---
 
-## 7. Contingency & Subsequent Succession Rules
+## 8. Contingency & Subsequent Succession Rules
 
 - **Failure of Designated Successor**: If the designated primary successor (Melk Abbey Library) is unable or unwilling to assume stewardship when triggered, the Governance Council shall convene within seven (7) days to select an alternate steward from the remaining five member institutions by 4-of-7 majority vote.
 - **Subsequent Successor Selection**: Upon completion of any stewardship hand-off, the newly installed Primary Steward and the Governance Council shall designate a new secondary successor within thirty (30) days.
 
 ---
 
-## 8. Reader Pointer Stability
+## 9. Reader Pointer Stability
 
 Public scholars, researchers, and library systems access the catalogue via a **Static Reader Pointer**. Because public resolution queries the Governance Council's root pointer rather than individual publisher keys, readers never need to update their reference addresses, links, or bookmarks when stewardship is transferred.
 
 ---
 
-## 9. Ratification & Execution
+## 10. Secrets & Confidentiality Policy
+
+> [!CAUTION]
+> **Strict Non-Disclosure of Cryptographic Secrets:**
+> No private keys, mnemonics, seed phrases, gift codes, passwords, API tokens, or authenticated URLs may ever be stored in tracked repository files or public documentation. All secret material must strictly reside in isolated environment variables (`.env`) or local secret managers.
+
+---
+
+## 11. Ratification & Execution
 
 This agreement is executed under the joint digital signatures of the authorized delegates of the Seven Monastery Libraries.
 
 *Executed on behalf of the Seven Monastery Federation.*  
-*Document Version: 1.0.0 (Decentralized Governance Standard)*
+*Document Version: 1.1.0 (Decentralized Governance Standard with Shared Custody Disclosure)*
