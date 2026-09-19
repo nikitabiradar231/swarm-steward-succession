@@ -52,7 +52,7 @@ export class SuccessionService {
       signatures.push(sig);
     }
 
-    // 3. Verify governance quorum (must be >= 4-of-7 stewards)
+    // 3. Verify governance quorum (must be >= 5-of-7 stewards)
     const governancePayload = {
       proposal,
       proposalHash,

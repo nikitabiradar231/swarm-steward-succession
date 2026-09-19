@@ -37,8 +37,8 @@ async function main() {
   console.log(`Incoming Steward Identity:  ${incomingPublisherAddress}`);
   console.log(`Storage/Bursar Identity:    ${identities.storageSigner.address}`);
 
-  // Collect 4-of-7 steward governance authorization signatures
-  const quorumStewardWallets = identities.stewardSigners.slice(0, 4);
+  // Collect 5-of-7 steward governance authorization signatures
+  const quorumStewardWallets = identities.stewardSigners.slice(0, 5);
 
   console.log(`\nCollecting ${quorumStewardWallets.length} governance authorization signatures...`);
 

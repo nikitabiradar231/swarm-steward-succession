@@ -5,7 +5,7 @@ dotenv.config();
 
 const envSchema = z.object({
   BEE_API_URL: z.string().url().default('http://localhost:1633'),
-  BEE_POSTAGE_BATCH_ID: z.string().default('0000000000000000000000000000000000000000000000000000000000000000'),
+  BEE_POSTAGE_BATCH_ID: z.string().default('fc0d88fabd3ca06e3b8992e07aadaf1b5c00ebd632acf86aa19bb0cf19206a7e'),
   STORAGE_SIGNER_PRIVATE_KEY: z.string().regex(/^0x[a-fA-F0-9]{64}$/, 'Must be a 32-byte hex private key'),
   PUBLISHER_SIGNER_PRIVATE_KEY: z.string().regex(/^0x[a-fA-F0-9]{64}$/, 'Must be a 32-byte hex private key'),
   GOVERNANCE_STEWARD_1_KEY: z.string().regex(/^0x[a-fA-F0-9]{64}$/),
@@ -34,7 +34,7 @@ const DEFAULT_KEYS = [
 export function getAppConfig(overrides: Record<string, string> = {}) {
   const envInput = {
     BEE_API_URL: process.env.BEE_API_URL || 'http://localhost:1633',
-    BEE_POSTAGE_BATCH_ID: process.env.BEE_POSTAGE_BATCH_ID || '0000000000000000000000000000000000000000000000000000000000000000',
+    BEE_POSTAGE_BATCH_ID: process.env.BEE_POSTAGE_BATCH_ID || 'fc0d88fabd3ca06e3b8992e07aadaf1b5c00ebd632acf86aa19bb0cf19206a7e',
     STORAGE_SIGNER_PRIVATE_KEY: process.env.STORAGE_SIGNER_PRIVATE_KEY || DEFAULT_KEYS[0],
     PUBLISHER_SIGNER_PRIVATE_KEY: process.env.PUBLISHER_SIGNER_PRIVATE_KEY || DEFAULT_KEYS[1],
     GOVERNANCE_STEWARD_1_KEY: process.env.GOVERNANCE_STEWARD_1_KEY || DEFAULT_KEYS[2],

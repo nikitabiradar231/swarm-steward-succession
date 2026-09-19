@@ -31,8 +31,8 @@ export class SwarmBeeClient {
     this.isMockMode = forceMock;
     
     // Seed initial mock batch for tests
-    this.mockBatches.set('0000000000000000000000000000000000000000000000000000000000000000', {
-      batchID: '0000000000000000000000000000000000000000000000000000000000000000',
+    this.mockBatches.set('fc0d88fabd3ca06e3b8992e07aadaf1b5c00ebd632acf86aa19bb0cf19206a7e', {
+      batchID: 'fc0d88fabd3ca06e3b8992e07aadaf1b5c00ebd632acf86aa19bb0cf19206a7e',
       utilization: 0,
       usable: true,
       label: 'Monastery Catalogue Batch',

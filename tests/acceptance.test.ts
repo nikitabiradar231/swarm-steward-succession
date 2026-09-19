@@ -115,7 +115,7 @@ describe('ACCEPTANCE TESTS - "The succession nobody wrote down"', () => {
 
     // 2. Perform Publisher Rotation via Succession
     const incomingPublisherWallet = Wallet.createRandom();
-    const quorumSigners = identities.stewardSigners.slice(0, 4);
+    const quorumSigners = identities.stewardSigners.slice(0, 5);
 
     await successionService.transferStewardship(
       initialPublisher,
@@ -196,14 +196,14 @@ describe('ACCEPTANCE TESTS - "The succession nobody wrote down"', () => {
   });
 
   /**
-   * TEST 4: Succession requires the configured governance authority (4-of-7 threshold).
+   * TEST 4: Succession requires the configured governance authority (5-of-7 threshold).
    */
   it('4. Succession requires the configured governance authority', async () => {
     const outgoingPublisher = identities.publisherSigner;
     const incomingPublisherAddr = Wallet.createRandom().address;
 
-    // Providing only 2 steward signatures (less than required 4) must fail
-    const insufficientSigners = identities.stewardSigners.slice(0, 2);
+    // Providing 4 steward signatures (less than required 5) must fail
+    const insufficientSigners = identities.stewardSigners.slice(0, 4);
 
     await expect(
       successionService.transferStewardship(
@@ -213,15 +213,15 @@ describe('ACCEPTANCE TESTS - "The succession nobody wrote down"', () => {
       )
     ).rejects.toThrow(/QUORUM_NOT_MET/);
 
-    // Providing 4 steward signatures succeeds
-    const quorumSigners = identities.stewardSigners.slice(0, 4);
+    // Providing 5 steward signatures succeeds
+    const quorumSigners = identities.stewardSigners.slice(0, 5);
     const evidence = await successionService.transferStewardship(
       outgoingPublisher,
       incomingPublisherAddr,
       quorumSigners
     );
 
-    expect(evidence.signaturesCount).toBe(4);
+    expect(evidence.signaturesCount).toBe(5);
     expect(evidence.incomingPublisherAddress).toBe(incomingPublisherAddr.toLowerCase());
   });
 
@@ -235,7 +235,7 @@ describe('ACCEPTANCE TESTS - "The succession nobody wrote down"', () => {
     const candidateA = Wallet.createRandom().address;
     const candidateB = Wallet.createRandom().address;
 
-    const quorumSigners = identities.stewardSigners.slice(0, 4);
+    const quorumSigners = identities.stewardSigners.slice(0, 5);
 
     const evidenceA = await successionService.transferStewardship(
       outgoingPublisher,

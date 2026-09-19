@@ -1,17 +1,17 @@
 # Manuscript Catalogue Stewardship Hand-off Record
 
 > [!IMPORTANT]
-> **RECORD STATUS: DEMONSTRATION / TEST RUN**
-> This hand-off record was generated during automated demonstration testing. To perform a live production hand-off against a running Swarm Bee node with real steward keys, see the instructions below.
+> **RECORD STATUS: LIVE PRODUCTION EXECUTION**
+> This hand-off was executed live against the configured Swarm Bee node.
 
 ---
 
 ## 1. Hand-off Overview
 
-- **Execution Mode**: `DEMO_SIMULATION`
-- **Date of Hand-off**: `2026-09-18T19:42:35.011Z`
+- **Execution Mode**: `LIVE_SWARM_NETWORK`
+- **Date of Hand-off**: `2026-09-19T05:34:54.625Z`
 - **Authority Transferred**: Manuscript Catalogue Publishing Authority for the Seven Monastery Federation
-- **Governance Quorum Achieved**: 4 out of 7 Monastery Stewards
+- **Governance Quorum Achieved**: 5 out of 7 Monastery Stewards
 
 ---
 
@@ -23,7 +23,7 @@
 
 ### Incoming Signing Identity
 - **Role**: Incoming Manuscript Catalogue Steward / Publisher
-- **Public Address**: `0xdfc23e98e4aa09c49ba18f6f8efc8a5fc95c2a85`
+- **Public Address**: `0x3389ad317cb138babde5ff03f1088906a07e2b41`
 
 ### Storage Custodian Identity
 - **Role**: Storage / Postage Batch Bursar
@@ -34,16 +34,17 @@
 ## 3. Verifiable Cryptographic Evidence
 
 - **Governance Proposal Hash**:
-  `0x5a635dbaa89599b683e77e5be006386aefe9504853d9708dc6adfd046b36e7cd`
+  `0xd4b0f256de4a458de7e83c1d7a88cb82c4a42709499e6986cbe5491311952725`
 
 - **Swarm Governance Feed Index / Reference**:
-  `eeb5e345d1d13675fbc8610efc8d815942fd3856205743e24716a3d4b18789a8`
+  `d37cdf2fe4b28996af589aef329236780a8f69e93115776ad27e582cfde93272`
 
 - **Participating Steward Signers**:
   1. `0x5cbdd86a2fa8dc4bddd8a8f69dba48572eec07fb`
   2. `0x7564105e977516c53be337314c7e53838967bdac`
   3. `0xe1fae9b4fab2f5726677ecfa912d96b0b683e6a9`
   4. `0xdb2430b4e9ac14be6554d3942822be74811a1af9`
+  5. `0xae72a48c1a36bd18af168541c53037965d26e4a8`
 
 ---
 

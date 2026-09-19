@@ -19,7 +19,7 @@ export const MONASTERY_STEWARDS: Omit<StewardMetadata, 'address'>[] = [
 ];
 
 export class GovernanceStewardRegistry {
-  public static readonly REQUIRED_QUORUM = 4; // 4 out of 7 stewards
+  public static readonly REQUIRED_QUORUM = 5; // 5 out of 7 stewards (supermajority)
   public static readonly TOTAL_STEWARDS = 7;
 
   private stewardMap: Map<string, StewardMetadata> = new Map();

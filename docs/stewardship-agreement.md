@@ -7,24 +7,28 @@
 
 This Stewardship Agreement establishes a decentralized, long-term governance and preservation framework for the combined manuscript catalogues of seven historic monastery libraries:
 
-1. **Monastery of St. Gall Library** (St. Gallen, Switzerland)
-2. **Melk Abbey Library** (Melk, Austria)
-3. **Mont Saint-Michel Scriptorium** (Normandy, France)
-4. **Reichenau Abbey Library** (Reichenau, Germany)
-5. **Fulda Monastery Scriptorium** (Fulda, Germany)
-6. **Lorch Abbey Library** (Lorch, Germany)
-7. **Corbie Abbey Library** (Corbie, France)
+1. **Monastery of St. Gall Library** (`st_gallen` — St. Gallen, Switzerland)
+2. **Melk Abbey Library** (`melk` — Melk, Austria)
+3. **Mont Saint-Michel Scriptorium** (`mont_saint_michel` — Normandy, France)
+4. **Reichenau Abbey Library** (`reichenau` — Reichenau, Germany)
+5. **Fulda Monastery Scriptorium** (`fulda` — Fulda, Germany)
+6. **Lorch Abbey Library** (`lorch` — Lorch, Germany)
+7. **Corbie Abbey Library** (`corbie` — Corbie, France)
 
 The purpose of this agreement is to ensure that the unified digital catalogue remains continuously readable, immutably archived, and correctable across generations, even if individual stewards, servers, or institutions cease active participation.
 
 ---
 
-## 2. Naming of Initial Steward and Designated Successor
+## 2. Naming of Initial Steward & Designated Successor
 
-- **Current Primary Steward**: **Monastery of St. Gall Library**  
-  Responsible for publishing digital catalogue entries and organizing manuscript records across the federation.
-- **Designated Primary Successor**: **Melk Abbey Library**  
-  Stands ready to inherit primary publishing authority automatically upon satisfaction of any triggering succession condition.
+- **Current Primary Steward / Active Publisher**:  
+  **Monastery of St. Gall Library** (Identifier: `st_gallen`)  
+  *Operational Identity*: `PUBLISHER_SIGNER` (configured via `PUBLISHER_SIGNER_PRIVATE_KEY`).  
+  *Role*: Responsible for digitally signing and publishing catalogue updates across the federation.
+
+- **Designated Primary Successor**:  
+  **Melk Abbey Library** (Identifier: `melk`)  
+  *Role*: Stands ready to inherit primary publishing authority automatically upon satisfaction of any triggering succession condition.
 
 ---
 
@@ -34,17 +38,18 @@ To prevent single points of failure and eliminate unauthorized tampering, author
 
 ### A. Storage & Postage Funding Authority ("Storage Custodian / Bursar")
 - **Responsibility**: Manages the financial endowment and continuous top-up of decentralized Swarm storage postage batches.
-- **Control**: Operated by the shared Federation Financial Bursar.
+- **Operational Key**: `STORAGE_SIGNER` (configured via `STORAGE_SIGNER_PRIVATE_KEY`).
 - **Restriction**: The Storage Custodian **cannot** sign or edit catalogue records, nor can they alter the governance reader pointer.
 
 ### B. Manuscript Catalogue Publishing Authority ("Active Publisher")
 - **Responsibility**: Digitally signs and publishes updated manuscript records (folio descriptions, condition status, photography flags, damage notes).
-- **Control**: Exercised solely by the designated active Primary Steward (initially Monastery of St. Gall).
+- **Operational Key**: `PUBLISHER_SIGNER` (configured via `PUBLISHER_SIGNER_PRIVATE_KEY`).
 - **Restriction**: The Active Publisher **cannot** unilaterally transfer publishing authority or redirect the public reader pointer without governance council concurrence.
 
 ### C. Governance & Succession Authority ("The Seven-Steward Council")
 - **Responsibility**: Governs institutional succession, authorizes incoming steward identities, and maintains the stable public reader pointer.
-- **Control**: Consists of seven distinct signing delegates representing each of the seven monastery institutions.
+- **Operational Keys**: `GOVERNANCE_STEWARD_1_KEY` through `GOVERNANCE_STEWARD_7_KEY`.
+- **Quorum Rule**: Requires at least **five out of seven (5-of-7)** steward signatures to authorize publisher rotation.
 
 ---
 
@@ -52,12 +57,15 @@ To prevent single points of failure and eliminate unauthorized tampering, author
 
 > [!IMPORTANT]
 > **Operational Realities of Shared Infrastructure:**
-> When the federation utilizes a single shared Bee node for hosting, the node's local wallet concentrates storage postage batch custody within that node's storage identity (`STORAGE_SIGNER`). 
-> 
-> To mitigate centralized control risks:
-> - **Publishing Authority (`PUBLISHER_SIGNER`)** remains strictly separate from the node's storage wallet key.
-> - **Governance Authority (`GOVERNANCE_STEWARDS`)** is maintained off-node using 7 distinct steward private keys.
-> - Even if a shared Bee node host is compromised, the node host **cannot** forge catalogue signatures or alter the 4-of-7 governance reader pointer.
+> - The Bee node API normally binds to `127.0.0.1` on the local node machine.
+> - When the seven institutions share a single local or remote Bee node instance, storage postage batch custody is concentrated within that node's storage identity (`STORAGE_SIGNER`).
+> - Storage custody is therefore **not independently separated** at the node layer; postage batches belong to the host node's storage wallet identity.
+> - **Network Security Warning**: Opening the Bee API to `0.0.0.0` exposes node endpoints to external networks, which can allow unauthorized external parties to consume postage stamps or spend node balances. Bee API access must remain bound to localhost or secured behind authenticated proxies.
+>
+> **Mitigation Strategy**:
+> - Publishing authority (`PUBLISHER_SIGNER`) remains strictly decoupled from the node's storage wallet key.
+> - Governance authority (`GOVERNANCE_STEWARDS`) is maintained off-node using 7 distinct steward private keys.
+> - Even if a shared Bee node host is compromised, the node host **cannot** forge catalogue signatures or alter the 5-of-7 governance reader pointer.
 
 ---
 
@@ -74,34 +82,51 @@ Succession and transfer of primary stewardship shall occur under any of the foll
 
 ## 6. Seven-Steward Governance & Quorum Rules
 
-- **Quorum Requirement**: Any modification to the stable reader pointer or authorization of an incoming steward requires the concurrence of at least **four out of seven (4-of-7)** monastery steward signatures (a 57% majority).
-- **Impossibility of Unilateral Alteration**: The current Active Publisher holds only one vote on the Governance Council. The publisher **cannot** unilaterally alter the governance pointer without securing at least three additional steward signatures.
+- **Supermajority Quorum Requirement**: Any modification to the stable reader pointer or authorization of an incoming steward requires the concurrence of at least **five out of seven (5-of-7)** monastery steward signatures (a 71% supermajority).
+- **Impossibility of Unilateral Alteration**: The current Active Publisher holds only one vote on the Governance Council. The publisher **cannot** unilaterally alter the governance pointer without securing at least four additional steward signatures.
 
 ---
 
 ## 7. Succession Procedure & Receiving Authority
 
-1. **Initiation**: Any steward delegate may initiate a succession request upon occurrence of a triggering condition.
-2. **Verification & Signature Collection**: The incoming steward's cryptographic public identity is submitted to the Governance Council. At least four (4) steward delegates review the proposal and attach their digital signatures to the rotation payload.
-3. **Execution**: The multi-signature authorization is published to the stable Governance Root Feed on the Swarm network.
-4. **Authority Hand-Off**: Once published, reader queries automatically resolve to the incoming steward's signed feed. The incoming steward assumes full publishing rights.
+1. **Initiation**: Any steward delegate may initiate a succession request upon occurrence of any triggering condition specified in Section 5.
+2. **External Incoming Identity**: The incoming steward's cryptographic public identity (`INCOMING_STEWARD_PRIVATE_KEY` / address parameter) is submitted to the Governance Council from outside the codebase.
+3. **Signature Collection**: A rotation proposal payload (`GovernanceRotationProposal`) is constructed. At least five (5) steward delegates review the proposal and attach their digital signatures.
+4. **Payload Upload & Root Feed Update**: The signed rotation payload is uploaded to Swarm, and the stable Governance Root Feed is updated to point to the new governance reference.
+5. **Authority Hand-Off**: Once published, reader queries automatically resolve to the incoming steward's signed feed. The incoming steward assumes full publishing rights.
+6. **Verification Protocol**: Participating stewards and external auditors verify the transition by executing:
+   ```bash
+   npm run verify:handoff
+   ```
+   This script verifies signature validity against the 7-steward registry, proposal hash integrity, and identity separation.
 
 ---
 
 ## 8. Contingency & Subsequent Succession Rules
 
-- **Failure of Designated Successor**: If the designated primary successor (Melk Abbey Library) is unable or unwilling to assume stewardship when triggered, the Governance Council shall convene within seven (7) days to select an alternate steward from the remaining five member institutions by 4-of-7 majority vote.
-- **Subsequent Successor Selection**: Upon completion of any stewardship hand-off, the newly installed Primary Steward and the Governance Council shall designate a new secondary successor within thirty (30) days.
+- **Failure or Unavailability of Designated Successor**: If the designated primary successor (**Melk Abbey Library**) is unable, incapacitated, or unwilling to assume stewardship when triggered, the Governance Council shall convene within seven (7) days to select an alternate steward from the remaining five member institutions by a 5-of-7 majority vote.
+- **Subsequent Successor Designation**: Upon completion of any stewardship hand-off, the newly installed Primary Steward and the Governance Council shall designate a new secondary successor within thirty (30) days and update the tracked governance record.
 
 ---
 
-## 9. Reader Pointer Stability
+## 9. Storage Funding Maintenance
+
+- **Responsibility**: The Financial Bursar (`STORAGE_SIGNER`) continuously monitors postage batch capacity, TTL, and utilization.
+- **Top-Up & Extension Procedure**: To extend the duration or storage capacity of an existing postage batch, the operator executes:
+  ```bash
+  npm run top-up-batch
+  ```
+  This calls `PostageBatchManager.topUpCatalogueBatch` (increasing BZZ balance) and `PostageBatchManager.extendCatalogueBatchDepth` (increasing chunk storage depth) on the existing batch ID without purchasing unnecessary redundant batches.
+
+---
+
+## 10. Reader Pointer Stability
 
 Public scholars, researchers, and library systems access the catalogue via a **Static Reader Pointer**. Because public resolution queries the Governance Council's root pointer rather than individual publisher keys, readers never need to update their reference addresses, links, or bookmarks when stewardship is transferred.
 
 ---
 
-## 10. Secrets & Confidentiality Policy
+## 11. Secrets & Confidentiality Policy
 
 > [!CAUTION]
 > **Strict Non-Disclosure of Cryptographic Secrets:**
@@ -109,9 +134,9 @@ Public scholars, researchers, and library systems access the catalogue via a **S
 
 ---
 
-## 11. Ratification & Execution
+## 12. Ratification & Execution
 
 This agreement is executed under the joint digital signatures of the authorized delegates of the Seven Monastery Libraries.
 
 *Executed on behalf of the Seven Monastery Federation.*  
-*Document Version: 1.1.0 (Decentralized Governance Standard with Shared Custody Disclosure)*
+*Document Version: 1.2.0 (Decentralized Governance Standard with 5-of-7 Quorum & Shared Custody Disclosure)*
