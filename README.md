@@ -6,8 +6,10 @@ Decentralized manuscript catalogue governance, continuous postage batch storage 
 
 ## 📌 Architecture Overview
 
-The system provides a decentralized manuscript catalogue shared by seven monastery libraries (St. Gall, Melk, Mont Saint-Michel, Reichenau, Fulda, Lorch, Corbie) that remains:
-- **Readable** even after the original steward stops participating.
+The system replaces single-person operational dependencies (such as former steward Ngawang Dorje, who maintained the catalogue, publishing key, and storage renewal for nine years) with a formal multi-steward institutional arrangement.
+
+The shared manuscript catalogue for the seven monastery libraries (St. Gall, Melk, Mont Saint-Michel, Reichenau, Fulda, Lorch, Corbie) remains:
+- **Readable** even after the primary steward stops participating or responding to email.
 - **Continuously funded** on Swarm via managed postage batches.
 - **Correctable** by the active designated steward.
 - **Transferable** to a successor under 7-steward multi-signature governance (**5-of-7 quorum**).

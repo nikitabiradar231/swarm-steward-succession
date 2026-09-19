@@ -15,7 +15,7 @@ This Stewardship Agreement establishes a decentralized, long-term governance and
 6. **Lorch Abbey Library** (`lorch` — Lorch, Germany)
 7. **Corbie Abbey Library** (`corbie` — Corbie, France)
 
-The purpose of this agreement is to ensure that the unified digital catalogue remains continuously readable, immutably archived, and correctable across generations, even if individual stewards, servers, or institutions cease active participation.
+The purpose of this agreement is to replace single-person operational dependencies (such as former steward Ngawang Dorje, who maintained the catalogue, publishing key, and storage for nine years) with a formal, multi-steward institutional arrangement. This ensures that the unified digital catalogue remains continuously readable, paid for, correctable, and transferable across generations, even if any individual steward stops participating.
 
 ---
 
